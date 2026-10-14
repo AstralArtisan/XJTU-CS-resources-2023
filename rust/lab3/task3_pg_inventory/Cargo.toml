@@ -1,0 +1,9 @@
+[package]
+name = "task3_pg_inventory"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+postgres = { workspace = true }
+chrono = { workspace = true }
+anyhow = { workspace = true }

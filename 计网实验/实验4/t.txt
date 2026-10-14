@@ -1,0 +1,212 @@
+
+<H3C>display ip routing-table
+
+Destinations : 22       Routes : 22
+
+Destination/Mask   Proto   Pre Cost        NextHop         Interface
+0.0.0.0/32         Direct  0   0           127.0.0.1       InLoop0
+10.6.2.0/24        RIP     100 1           10.6.6.1        Vlan2
+10.6.3.0/24        RIP     100 1           10.6.7.2        Vlan3
+10.6.5.0/24        Direct  0   0           10.6.5.1        Vlan4
+10.6.5.0/32        Direct  0   0           10.6.5.1        Vlan4
+10.6.5.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.5.255/32      Direct  0   0           10.6.5.1        Vlan4
+10.6.6.0/24        Direct  0   0           10.6.6.2        Vlan2
+10.6.6.0/32        Direct  0   0           10.6.6.2        Vlan2
+10.6.6.2/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.6.255/32      Direct  0   0           10.6.6.2        Vlan2
+10.6.7.0/24        Direct  0   0           10.6.7.1        Vlan3
+10.6.7.0/32        Direct  0   0           10.6.7.1        Vlan3
+10.6.7.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.7.255/32      Direct  0   0           10.6.7.1        Vlan3
+127.0.0.0/8        Direct  0   0           127.0.0.1       InLoop0
+127.0.0.0/32       Direct  0   0           127.0.0.1       InLoop0
+127.0.0.1/32       Direct  0   0           127.0.0.1       InLoop0
+127.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+224.0.0.0/4        Direct  0   0           0.0.0.0         NULL0
+224.0.0.0/24       Direct  0   0           0.0.0.0         NULL0
+255.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+
+
+<MSR2600-1>display ip routing-table
+
+Destinations : 17       Routes : 17
+
+Destination/Mask   Proto   Pre Cost        NextHop         Interface
+0.0.0.0/32         Direct  0   0           127.0.0.1       InLoop0
+10.6.2.0/24        Direct  0   0           10.6.2.1        GE0/0
+10.6.2.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.2.255/32      Direct  0   0           10.6.2.1        GE0/0
+10.6.3.0/24        Static  60  0           10.6.5.2        GE0/1
+10.6.3.1/32        Static  60  0           10.6.5.1        GE0/1
+10.6.5.0/24        RIP     100 1           10.6.6.2        GE0/1
+10.6.6.0/24        Direct  0   0           10.6.6.1        GE0/1
+10.6.6.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.6.255/32      Direct  0   0           10.6.6.1        GE0/1
+10.6.7.0/24        RIP     100 1           10.6.6.2        GE0/1
+127.0.0.0/8        Direct  0   0           127.0.0.1       InLoop0
+127.0.0.1/32       Direct  0   0           127.0.0.1       InLoop0
+127.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+224.0.0.0/4        Direct  0   0           0.0.0.0         NULL0
+224.0.0.0/24       Direct  0   0           0.0.0.0         NULL0
+255.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+
+[MSR2600-2]display ip routing-table
+
+Destinations : 17       Routes : 17
+
+Destination/Mask   Proto   Pre Cost        NextHop         Interface
+0.0.0.0/32         Direct  0   0           127.0.0.1       InLoop0
+10.6.1.0/24        Static  60  0           10.6.5.1        GE0/1
+10.6.2.0/24        Static  60  0           10.6.5.2        GE0/1
+10.6.3.0/24        Direct  0   0           10.6.3.1        GE0/0
+10.6.3.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.3.255/32      Direct  0   0           10.6.3.1        GE0/0
+10.6.5.0/24        RIP     100 1           10.6.7.1        GE0/1
+10.6.6.0/24        RIP     100 1           10.6.7.1        GE0/1
+10.6.7.0/24        Direct  0   0           10.6.7.2        GE0/1
+10.6.7.2/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.7.255/32      Direct  0   0           10.6.7.2        GE0/1
+127.0.0.0/8        Direct  0   0           127.0.0.1       InLoop0
+127.0.0.1/32       Direct  0   0           127.0.0.1       InLoop0
+127.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+224.0.0.0/4        Direct  0   0           0.0.0.0         NULL0
+224.0.0.0/24       Direct  0   0           0.0.0.0         NULL0
+255.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+
+
+<MSR2600-1>display ip routing-table
+
+Destinations : 20       Routes : 21
+
+Destination/Mask   Proto   Pre Cost        NextHop         Interface
+0.0.0.0/32         Direct  0   0           127.0.0.1       InLoop0
+10.6.2.0/24        Direct  0   0           10.6.2.1        GE0/0
+10.6.2.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.2.255/32      Direct  0   0           10.6.2.1        GE0/0
+10.6.3.0/24        Static  60  0           10.6.5.2        GE0/1
+10.6.3.1/32        Static  60  0           10.6.5.1        GE0/1
+10.6.5.0/24        RIP     100 1           10.6.6.2        GE0/1
+10.6.6.0/24        Direct  0   0           10.6.6.1        GE0/1
+10.6.6.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.6.255/32      Direct  0   0           10.6.6.1        GE0/1
+10.6.7.0/24        RIP     100 1           10.6.6.2        GE0/1
+                   RIP     100 1           10.6.8.2        GE0/2
+10.6.8.0/24        Direct  0   0           10.6.8.1        GE0/2
+10.6.8.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.8.255/32      Direct  0   0           10.6.8.1        GE0/2
+127.0.0.0/8        Direct  0   0           127.0.0.1       InLoop0
+127.0.0.1/32       Direct  0   0           127.0.0.1       InLoop0
+127.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+224.0.0.0/4        Direct  0   0           0.0.0.0         NULL0
+224.0.0.0/24       Direct  0   0           0.0.0.0         NULL0
+255.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+
+
+[MSR2600-2]display ip routing-table
+
+Destinations : 20       Routes : 21
+
+Destination/Mask   Proto   Pre Cost        NextHop         Interface
+0.0.0.0/32         Direct  0   0           127.0.0.1       InLoop0
+10.6.1.0/24        Static  60  0           10.6.5.1        GE0/1
+10.6.2.0/24        Static  60  0           10.6.5.2        GE0/1
+10.6.3.0/24        Direct  0   0           10.6.3.1        GE0/0
+10.6.3.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.3.255/32      Direct  0   0           10.6.3.1        GE0/0
+10.6.5.0/24        RIP     100 1           10.6.7.1        GE0/1
+10.6.6.0/24        RIP     100 1           10.6.7.1        GE0/1
+                   RIP     100 1           10.6.8.1        GE0/2
+10.6.7.0/24        Direct  0   0           10.6.7.2        GE0/1
+10.6.7.2/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.7.255/32      Direct  0   0           10.6.7.2        GE0/1
+10.6.8.0/24        Direct  0   0           10.6.8.2        GE0/2
+10.6.8.2/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.8.255/32      Direct  0   0           10.6.8.2        GE0/2
+127.0.0.0/8        Direct  0   0           127.0.0.1       InLoop0
+127.0.0.1/32       Direct  0   0           127.0.0.1       InLoop0
+127.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+224.0.0.0/4        Direct  0   0           0.0.0.0         NULL0
+224.0.0.0/24       Direct  0   0           0.0.0.0         NULL0
+255.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+
+
+<H3C>display ip routing-table
+
+Destinations : 23       Routes : 24
+
+Destination/Mask   Proto   Pre Cost        NextHop         Interface
+0.0.0.0/32         Direct  0   0           127.0.0.1       InLoop0
+10.6.2.0/24        RIP     100 1           10.6.6.1        Vlan2
+10.6.3.0/24        RIP     100 1           10.6.7.2        Vlan3
+10.6.5.0/24        Direct  0   0           10.6.5.1        Vlan4
+10.6.5.0/32        Direct  0   0           10.6.5.1        Vlan4
+10.6.5.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.5.255/32      Direct  0   0           10.6.5.1        Vlan4
+10.6.6.0/24        Direct  0   0           10.6.6.2        Vlan2
+10.6.6.0/32        Direct  0   0           10.6.6.2        Vlan2
+10.6.6.2/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.6.255/32      Direct  0   0           10.6.6.2        Vlan2
+10.6.7.0/24        Direct  0   0           10.6.7.1        Vlan3
+10.6.7.0/32        Direct  0   0           10.6.7.1        Vlan3
+10.6.7.1/32        Direct  0   0           127.0.0.1       InLoop0
+10.6.7.255/32      Direct  0   0           10.6.7.1        Vlan3
+10.6.8.0/24        RIP     100 1           10.6.6.1        Vlan2
+                                           10.6.7.2        Vlan3
+127.0.0.0/8        Direct  0   0           127.0.0.1       InLoop0
+127.0.0.0/32       Direct  0   0           127.0.0.1       InLoop0
+127.0.0.1/32       Direct  0   0           127.0.0.1       InLoop0
+127.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+224.0.0.0/4        Direct  0   0           0.0.0.0         NULL0
+224.0.0.0/24       Direct  0   0           0.0.0.0         NULL0
+255.255.255.255/32 Direct  0   0           127.0.0.1       InLoop0
+
+
+<H3C>display rip 1
+  Public VPN-instance name:
+    RIP process: 1
+       RIP version: 2
+       Preference: 100
+       Checkzero: Enabled
+       Default cost: 0
+       Summary: Disabled
+       Host routes: Enabled
+       Maximum number of load balanced routes: 8
+       Update time   :   30 secs  Timeout time         :  180 secs
+       Suppress time :  120 secs  Garbage-collect time :  120 secs
+       Update output delay:   20(ms)  Output count:    3
+       Graceful-restart interval:   60 secs
+       Triggered Interval : 5 50 200
+       Silent interfaces: None
+       Default routes: Disabled
+       Verify-source: Enabled
+       Networks:
+           10.0.0.0
+       Configured peers: None
+       Triggered updates sent: 18
+       Number of routes changes: 13
+       Number of replies to queries: 1
+
+
+<H3C>display rip 1 database
+   10.0.0.0/8, auto-summary
+       10.6.2.0/24, cost 1, nexthop 10.6.6.1
+       10.6.3.0/24, cost 1, nexthop 10.6.7.2
+       10.6.5.0/24, cost 0, nexthop 10.6.5.1, RIP-interface
+       10.6.6.0/24, cost 0, nexthop 10.6.6.2, RIP-interface
+       10.6.7.0/24, cost 0, nexthop 10.6.7.1, RIP-interface
+       10.6.8.0/24, cost 1, nexthop 10.6.6.1
+       10.6.8.0/24, cost 1, nexthop 10.6.7.2
+
+
+<H3C>display rip 1 neighbor
+ Neighbor address: 10.6.6.1
+     Interface  : Vlan-interface2
+     Version    : RIPv2     Last update: 00h00m22s
+     Relay nbr  : No        BFD session: None
+     Bad packets: 0         Bad routes : 0
+ Neighbor address: 10.6.7.2
+     Interface  : Vlan-interface3
+     Version    : RIPv2     Last update: 00h00m03s
+     Relay nbr  : No        BFD session: None
+     Bad packets: 0         Bad routes : 0

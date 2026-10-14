@@ -1,0 +1,4 @@
+# Local editor and build files
+.DS_Store
+__pycache__/
+*.pyc

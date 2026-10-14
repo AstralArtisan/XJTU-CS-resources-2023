@@ -1,0 +1,5 @@
+digraph G {
+    6 [label="6"];
+    6 -> 5 [label="L"];
+    5 [label="5"];
+}

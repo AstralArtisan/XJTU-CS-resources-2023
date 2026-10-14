@@ -1,0 +1,12 @@
+将文件解压在"项目new"文件夹下，并在"项目new"文件夹下打开两个cmd窗口。（此文件夹可以起其他名字，没有影响）
+
+在其中一个cmd下运行后端，命令如下：
+set OPENROUTER_API_KEY=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
+set OPENROUTER_MODEL=qwen/qwen3.6-plus:free
+python -m backend.main
+
+在其中一个cmd下运行前端，命令如下：
+cd frontend
+python -m http.server 5173
+
+然后在浏览器打开http://127.0.0.1:5173

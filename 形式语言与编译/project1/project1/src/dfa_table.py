@@ -1,0 +1,94 @@
+"""σ-DFA 状态转移表定义
+
+状态命名规则:
+  S0        - 初始状态
+  S_XXX     - 中间状态
+  ACCEPT_X  - 接受状态(识别出模板X)
+"""
+
+# 状态常量
+S0 = 'S0'
+
+# LABEL 路径
+S_LABEL = 'S_LABEL'
+S_LABEL_L = 'S_LABEL_L'
+
+# GOTO 路径
+S_GOTO = 'S_GOTO'
+S_GOTO_B = 'S_GOTO_B'
+
+# RETURN 路径
+S_RETURN = 'S_RETURN'
+S_RETURN_A = 'S_RETURN_A'
+
+# IF 路径
+S_IF = 'S_IF'
+S_IF_Q = 'S_IF_Q'
+S_IF_ROP = 'S_IF_ROP'
+S_IF_A = 'S_IF_A'
+S_IF_THEN = 'S_IF_THEN'
+S_IF_L1 = 'S_IF_L1'
+S_IF_ELSE = 'S_IF_ELSE'
+S_IF_L2 = 'S_IF_L2'
+
+# 赋值/算术/CALL/内存加载 路径
+S_Q = 'S_Q'
+S_Q_EQ = 'S_Q_EQ'
+S_Q_EQ_A = 'S_Q_EQ_A'
+S_Q_EQ_A_AOP = 'S_Q_EQ_A_AOP'
+S_Q_EQ_A_AOP_A = 'S_Q_EQ_A_AOP_A'
+
+# CALL 路径
+S_Q_EQ_CALL = 'S_Q_EQ_CALL'
+S_Q_EQ_CALL_D = 'S_Q_EQ_CALL_D'
+S_Q_EQ_CALL_COMMA = 'S_Q_EQ_CALL_COMMA'
+S_Q_EQ_CALL_K = 'S_Q_EQ_CALL_K'
+
+# 内存加载 q = M[b] ;
+S_Q_EQ_M = 'S_Q_EQ_M'
+S_Q_EQ_M_LB = 'S_Q_EQ_M_LB'
+S_Q_EQ_M_B = 'S_Q_EQ_M_B'
+S_Q_EQ_M_RB = 'S_Q_EQ_M_RB'
+
+# 内存存储 M[b] = q ;
+S_M = 'S_M'
+S_M_LB = 'S_M_LB'
+S_M_B = 'S_M_B'
+S_M_RB = 'S_M_RB'
+S_M_EQ = 'S_M_EQ'
+S_M_EQ_Q = 'S_M_EQ_Q'
+
+# PAR 路径
+S_PAR = 'S_PAR'
+S_PAR_A = 'S_PAR_A'
+
+# 接受状态
+ACCEPT_LABEL = 'ACCEPT_LABEL'
+ACCEPT_GOTO = 'ACCEPT_GOTO'
+ACCEPT_RETURN = 'ACCEPT_RETURN'
+ACCEPT_IF = 'ACCEPT_IF'
+ACCEPT_AOP = 'ACCEPT_AOP'
+ACCEPT_MOVE = 'ACCEPT_MOVE'
+ACCEPT_LDR0 = 'ACCEPT_LDR0'
+ACCEPT_STR0 = 'ACCEPT_STR0'
+ACCEPT_PAR_CALL = 'ACCEPT_PAR_CALL'
+
+# 所有接受状态集合
+ACCEPT_STATES = {
+    ACCEPT_LABEL, ACCEPT_GOTO, ACCEPT_RETURN, ACCEPT_IF,
+    ACCEPT_AOP, ACCEPT_MOVE, ACCEPT_LDR0, ACCEPT_STR0,
+    ACCEPT_PAR_CALL,
+}
+
+# 接受状态到模板名的映射
+ACCEPT_TO_TEMPLATE = {
+    ACCEPT_LABEL: 'T_LABEL',
+    ACCEPT_GOTO: 'T_GOTO',
+    ACCEPT_RETURN: 'T_RETURN',
+    ACCEPT_IF: 'T_IF',
+    ACCEPT_AOP: 'T_AOP',
+    ACCEPT_MOVE: 'T_MOVE',
+    ACCEPT_LDR0: 'T_LDR0',
+    ACCEPT_STR0: 'T_STR0',
+    ACCEPT_PAR_CALL: 'T_PAR_CALL',
+}

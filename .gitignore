@@ -1,0 +1,60 @@
+# 本地整理不等于公开仓库；仅从审核后的副本准备发布。
+/表达与交流/
+/其他/
+/计组proj/
+/计算概论/
+/.publication-private/
+.DS_Store
+Thumbs.db
+.obsidian/
+.idea/
+.vscode/
+.vs/
+.claude/
+.codex/
+AGENTS.md
+CLAUDE.md
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+target/
+CMakeFiles/
+*.o
+*.obj
+# 图形学目录中的 Wavefront 模型
+!/计算机图形学/dandelion-testset/input/geometry/*.obj
+!/计算机图形学/dandelion-testset/models/*.obj
+*.class
+*.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.log
+~$*
+
+# Local tool state and packet captures
+.remember/
+*.pcap
+*.pcapng
+
+# Course packet-capture materials
+!/计网实验/**/*.pcap
+!/计网实验/**/*.pcapng
+
+# 完整教材通过 Release 附件提供；本地副本保留，不写入 Git 历史。
+/电路与电子学/电路与电子学基础 (唐胜安, 刘晔) (Z-Library).pdf
+/数据库/数据库系统原理 (沈钧毅，侯迪，冯中慧等编著, 沈钧毅\[等\]编著, 沈钧毅) (z-library.sk, 1lib.sk, z-lib.sk) 2.pdf
+/数字逻辑电路/数字逻辑与数字系统 (朱正东，伍卫国主编；张超，符均，陈国岗编, 朱正东, 伍卫国主编 etc.) (Z-Library).pdf
+/大物/大学物理学 上.pdf
+/大物/大学物理学下册.pdf
+/概率统计与随机过程/概率论与数理统计 (施雨、赵小艳、李耀武、段启宏) (Z-Library).pdf
+/计组/计算机组成与设计21世纪高等学校规划教材·计算机科学与技术 (王换招 , 陈妍, 赵青苹) (Z-.pdf
+/数据结构与算法/数据结构(C语言) (严蔚敏) (Z-Library).pdf
+/离散数学/离散数学 (陈建明, 曾明, 刘国荣) (Z-Library).pdf

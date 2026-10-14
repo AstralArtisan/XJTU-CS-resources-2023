@@ -1,0 +1,14 @@
+BP-MLP Binary Classification Report (passed_exam)
+Features(after one-hot) D=25, Hidden H=64, Epochs=300
+Train N=2400, Test N=600
+
+Test Metrics:
+  Accuracy  = 0.8500
+  Precision = 0.8710
+  Recall    = 0.2389
+  F1        = 0.3750
+  AUC       = 0.9393
+
+Confusion Matrix (rows=true, cols=pred):
+[[483   4]
+ [ 86  27]]

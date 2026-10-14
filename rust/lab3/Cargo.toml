@@ -1,0 +1,19 @@
+[workspace]
+members = [
+    "task1_sqlite_register",
+    "task2_mysql_log",
+    "task3_pg_inventory",
+    "task4_mysql_report",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+
+[workspace.dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+rusqlite = { version = "0.31", features = ["bundled", "chrono"] }
+mysql = "25"
+postgres = { version = "0.19", features = ["with-chrono-0_4"] }
+anyhow = "1"

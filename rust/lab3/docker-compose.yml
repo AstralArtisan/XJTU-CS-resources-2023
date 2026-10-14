@@ -1,0 +1,33 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: lab3_mysql
+    restart: unless-stopped
+    command: --default-time-zone=+08:00
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: lab3
+      MYSQL_USER: lab3
+      MYSQL_PASSWORD: lab3pass
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  postgres:
+    image: postgres:16
+    container_name: lab3_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lab3
+      POSTGRES_USER: lab3
+      POSTGRES_PASSWORD: lab3pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  mysql_data:
+  pg_data:

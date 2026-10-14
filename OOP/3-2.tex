@@ -1,0 +1,259 @@
+\documentclass{article}
+\usepackage[UTF8]{ctex}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{tabularx}
+\usepackage{amsmath}
+
+\geometry{a4paper, left=2cm, right=2cm, top=2cm, bottom=2cm}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\lstset{
+    language=C++, % 设置代码语言为 C++
+    basicstyle=\ttfamily\small, % 设置基本样式
+    keywordstyle=\color{blue}, % 设置关键字颜色
+    commentstyle=\color{mygreen}, % 设置注释颜色
+    stringstyle=\color{red}, % 设置字符串颜色
+    showstringspaces=false, % 不显示字符串中的空格
+    breaklines=true, % 自动换行
+    frame=single, % 设置代码框样式
+    numbers=left, % 显示行号
+    numberstyle=\tiny\color{gray}, % 设置行号样式
+    tabsize=4, % 设置制表符宽度
+    extendedchars=true, % 支持扩展字符
+    escapeinside={\%*}{*)}, % 允许在注释中使用 LaTeX 命令
+}
+
+\begin{document}
+
+\title{C++对象内存模型实验报告}
+\author{        }
+\maketitle
+
+\section{实验内容}
+本实验通过设计包含多种类型成员的类，观察不同作用域对象的存储特性，验证以下内容：
+
+1、定义一个类，其中有静态数据成员、各种类型非静态数据成员（含字符指针），甚至包括引用（可选），静态和非静态成员函数（含分配空间的构造函数、析构函数）。
+
+2、定义全局对象、main函数中局部对象、另一个被main调用的外部函数func中定义局部对象（可以是形参）、main函数中动态创建对象，每种对象至少2个。观察、分析各种对象地址。
+
+3、输出对象中各个静态与非静态数据成员的值、地址、对象的存储空间大小等信息。由此理解对象的本质、静态数据成员是本类对象共享一份拷贝等问题。此外，应观察对齐现象。
+
+4、（可选）输出对象的每个字节，以揭示引用的实现方法。
+
+5、对于上述各种对象，输出静态、非静态成员函数地址，以及main、func等外部函数的地址，并分析。
+
+\section{代码结构}
+核心类定义：
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <cstring>
+#include <iomanip>
+using namespace std;
+class A {
+    static int static_mem; //静态成员
+    int normal_mem;        //非静态成员
+    char* str_ptr;         //字符指针
+    int reference;         //引用指向值
+    int& reference_mem;    //引用
+public:
+    A(int b, const char* c, int d)
+     : normal_mem(b), reference(d), reference_mem(reference) {
+        //构造函数
+        str_ptr = new char[strlen(c) + 1];
+        strcpy(str_ptr, c);
+        static_mem++; //测试静态成员
+    };
+    ~A() {
+        //析构函数
+        delete[] str_ptr;
+        static_mem--; //测试静态成员
+    }
+    static void static_func() {} //静态成员函数
+    void normal_func() {}        //普通成员函数
+    void print_memory() const {
+        cout << setw(8) << "Object at: " << setw(10) << this << " Size: " << sizeof(*this) << endl;                //打印当前对象地址与空间大小
+        cout << setw(8) << "  static_mem: " << setw(15) << &static_mem << " (" << static_mem << ")" << endl;       //打印静态成员
+        cout << setw(8) << "  normal_mem: " << setw(15) << &normal_mem << " (" << normal_mem << ")" << endl;       //打印非静态成员
+        cout << setw(8) << "  str_ptr:    " << setw(15) << (void*)str_ptr << " -> " << str_ptr << endl;           //打印字符指针
+        cout << setw(8) << "  ref_mem:    " << setw(15) << &reference_mem << " -> " << reference_mem << endl;      //打印引用成员
+        size_t offset_normal = reinterpret_cast<size_t>(&normal_mem) - reinterpret_cast<size_t>(this);
+        size_t offset_str = reinterpret_cast<size_t>(&str_ptr) - reinterpret_cast<size_t>(this);
+        size_t offset_ref = reinterpret_cast<size_t>(&reference_mem) - reinterpret_cast<size_t>(this);
+        cout << "  Member offsets: " << offset_normal << "/" << offset_str << "/" << offset_ref << endl;           //研究对齐现象
+    }
+    static void print_static() {
+        cout << setw(8) << "\n  Final static_mem: " << setw(15) << &static_mem << " (" << static_mem << ")" << endl;       //用于打印最终的静态成员
+    }
+};
+
+int A::static_mem = 0; //初始化静态成员
+\end{lstlisting}
+
+全局对象与外部函数：
+\begin{lstlisting}[language=C++]
+    //全局对象
+A global1(1, "global1", 2); 
+A global2(3, "global2", 4);
+
+void func() {
+    //外部函数局部对象
+    A local1(10, "local1", 100);
+    A local2(20, "local2", 200);
+    cout << "\n[Function Local Objects]" << endl;
+    local1.print_memory();
+    local2.print_memory();
+}
+\end{lstlisting}
+
+main函数调用：
+\begin{lstlisting}[language=C++]
+int main() {
+    cout << "======== Memory Analysis ========\n";
+    cout << "[Global Objects]" << endl;
+    global1.print_memory();
+    global2.print_memory();
+
+    // main函数局部对象
+    A local1(30, "main_local1", 300);
+    A local2(40, "main_local2", 400);
+
+    cout << "\n[Local Objects]" << endl;
+    local1.print_memory();
+    local2.print_memory();
+
+    // 动态对象
+    A* dynamic1 = new A(50, "dynamic1", 500);
+    A* dynamic2 = new A(60, "dynamic2", 600);
+
+    cout << "\n[Dynamic Objects]" << endl;
+    dynamic1->print_memory();
+    dynamic2->print_memory();
+
+    func(); // 引入外部函数
+    
+    union SafeConverter {
+    void (A::*member_ptr)();
+    void* raw_ptr;
+};
+    // 函数地址分析
+    cout << "\n======== Function Address ========\n";
+    SafeConverter sc;
+    sc.member_ptr = &A::normal_func;
+    cout << setw(20) << "  Member function:  " << setw(10) << sc.raw_ptr << endl;
+    cout << setw(20) << "  Static function:  " << setw(10) << (void*)&A::static_func << endl;
+    cout << setw(20) << "  main function:    " << setw(10) << (void*)&main << endl;
+    cout << setw(20) << "  func:             " << setw(10) << (void*)&func << endl;
+
+    delete dynamic1;
+    delete dynamic2;
+    
+    A::print_static();
+    return 0;
+}
+\end{lstlisting}
+
+\section{输出结果}
+\begin{lstlisting}
+    ======== Memory Analysis ========
+    [Global Objects]
+    Object at: 0x7ff68e678060 Size: 32
+      static_mem:  0x7ff68e678040 (2)
+      normal_mem:  0x7ff68e678060 (1)
+      str_ptr:           0x6a7af0 -> global1
+      ref_mem:     0x7ff68e678070 -> 2
+      Member offsets: 0/8/16/16
+    Object at: 0x7ff68e678080 Size: 32
+      static_mem:  0x7ff68e678040 (2)
+      normal_mem:  0x7ff68e678080 (3)
+      str_ptr:           0x6a7b30 -> global2
+      ref_mem:     0x7ff68e678090 -> 4
+      Member offsets: 0/8/16/16
+    
+    [Local Objects]
+    Object at:   0x5ffe80 Size: 32
+      static_mem:  0x7ff68e678040 (4)
+      normal_mem:        0x5ffe80 (30)
+      str_ptr:           0x6b2f60 -> main_local1
+      ref_mem:           0x5ffe90 -> 300
+      Member offsets: 0/8/16/16
+    Object at:   0x5ffe60 Size: 32
+      static_mem:  0x7ff68e678040 (4)
+      normal_mem:        0x5ffe60 (40)
+      str_ptr:           0x6b2fa0 -> main_local2
+      ref_mem:           0x5ffe70 -> 400
+      Member offsets: 0/8/16/16
+    
+    [Dynamic Objects]
+    Object at:   0x6b51f0 Size: 32
+      static_mem:  0x7ff68e678040 (6)
+      normal_mem:        0x6b51f0 (50)
+      str_ptr:           0x6b5240 -> dynamic1
+      ref_mem:           0x6b5200 -> 500
+      Member offsets: 0/8/16/16
+    Object at:   0x6ac9b0 Size: 32
+      static_mem:  0x7ff68e678040 (6)
+      normal_mem:        0x6ac9b0 (60)
+      str_ptr:           0x6aca00 -> dynamic2
+      ref_mem:           0x6ac9c0 -> 600
+      Member offsets: 0/8/16/16
+    
+    [Function Local Objects]
+    Object at:   0x5ffdf0 Size: 32
+      static_mem:  0x7ff68e678040 (8)
+      normal_mem:        0x5ffdf0 (10)
+      str_ptr:           0x6add90 -> local1
+      ref_mem:           0x5ffe00 -> 100
+      Member offsets: 0/8/16/16
+    Object at:   0x5ffdd0 Size: 32
+      static_mem:  0x7ff68e678040 (8)
+      normal_mem:        0x5ffdd0 (20)
+      str_ptr:           0x6addd0 -> local2
+      ref_mem:           0x5ffde0 -> 200
+      Member offsets: 0/8/16/16
+    
+    ======== Function Address ========
+      Member function:  0x7ff68e672de0
+      Static function:  0x7ff68e672df0
+      main function:    0x7ff68e671507
+      func:             0x7ff68e671430
+    
+      Final static_mem:  0x7ff68e678040 (4)
+\end{lstlisting}
+
+\section{输出结果分析}
+\textbf{1.对象地址研究}
+
+对象按其作用域不同，在内存中的存储位置各异。全局对象存于数据段，地址较高且连续，像实验中的地址范围在 \texttt{0x7ff68e678060} 到 \texttt{0x7ff618528080}，间隔 32 字节，可能是因为内存对齐或编译器优化。局部对象位于栈区，地址呈现递减趋势，如 \texttt{main} 函数局部对象地址从 \texttt{0x5ffe80} 到 \texttt{0x5ffe60}，符合栈区向下增长的特性。动态对象则在堆区，地址较为分散，实验中为 \texttt{0x6b51f0} 和 \texttt{0x6ac9b0}，其内存分配由堆管理器负责。
+
+\textbf{2.对象大小研究}
+
+对象大小为 32 字节，这是由其成员及内存对齐规则共同决定。对象包含 \texttt{int normal\_mem}（4 字节）、\texttt{char* str\_ptr}（指针变量 8 字节）、\texttt{int reference}（引用指向值）、\texttt{int\& reference\_mem}（实际为指针，8 字节）。由于要按最大成员的 8 字节进行内存对齐，便于读取数据，所以最终的实际布局为：\texttt{normal\_mem}（4 字节）后填充 4 字节，接着是 \texttt{str\_ptr}（8 字节），\texttt{reference}（4 字节）后填充 4 字节，\texttt{reference\_mem}（8 字节），总计 $4 + 4 + 8 + 4 + 4 + 8 = 32$ 字节。
+
+\textbf{3.静态成员分析}
+
+静态成员 \texttt{static\_mem} 地址具有唯一性，所有对象的 \texttt{static\_mem} 地址相同，都为 \texttt{0x7ff68e678040}，这体现了静态成员属于类且全局唯一的特性。其数值变化与对象构造和析构紧密相关，全局对象构造时，\texttt{static\_mem} 从 0 变为 2（\texttt{global1} 和 \texttt{global2} 构造）；\texttt{main} 函数中局部对象构造使其从 2 变为 4（\texttt{local1} 和 \texttt{local2}）；动态对象构造后又从 4 变为 6（\texttt{dynamic1} 和 \texttt{dynamic2}）；\texttt{func} 函数中局部对象构造让其达到 8。随着动态对象和 \texttt{func} 函数中局部对象析构，\texttt{static\_mem} 最终变为 4。
+
+\textbf{4.非静态成员分析}
+
+非静态成员 \texttt{normal\_mem} 的地址等于对象基地址，例如 \texttt{global1} 的 \texttt{normal\_mem} 地址为 \texttt{0x7ff68e678060}，与对象地址一致，因为它是第一个非静态成员。不同对象的 \texttt{normal\_mem} 值相互独立，不被其他成员所影响。如 \texttt{global1.normal\_mem = 1}，\texttt{global2.normal\_mem = 3}。引用指向值 \texttt{reference} 同理。
+
+\textbf{5.字符指针分析}
+
+在代码中，输出字符指针地址时需强制转换为 \texttt{void*}，写成 \texttt{(void*)str\_ptr}，为其指向的堆内存地址；若使用 \texttt{\&str\_ptr}，则会输出该变量本身地址（栈或对象内存）；而输出其指向内容时可直接使用 \texttt{str\_ptr}，例如 \texttt{cout << str\_ptr} 会显示字符串。像 \texttt{global1.str\_ptr} 地址为 \texttt{0x6a7af0}，指向字符串 \texttt{"global1"}，动态对象的 \texttt{str\_ptr} 地址则不同，如 \texttt{0x6b5240} 指向 \texttt{"dynamic1"}。
+
+\textbf{6.引用成员分析}
+
+引用成员地址与被引用的成员地址相同（如 \texttt{ref\_mem} 与 \texttt{reference} 均位于 \texttt{this+16}）。因引用是别名，不占用独立存储，直接绑定到目标变量，所以引用成员指向的值即为赋给 \texttt{reference} 的值，如 \texttt{dynamic1} 中引用成员：\texttt{0x6b5200 -> 500}。
+
+\textbf{7.函数地址分析}
+
+成员函数地址与对象无关，所有对象共享同一成员函数实例，例如 \texttt{A::normal\_func} 地址固定为 \texttt{0x7ff68e672de0}。静态函数地址可直接获取，如 \texttt{\&A::static\_func}。这些函数的地址也可以反映不同函数实现位置。
+
+\textbf{8.对齐现象}
+
+成员按 8 字节对齐。引用成员不占独立空间，地址与目标变量相同。引用本质是别名，存储由编译器优化，输出显示其地址与目标一致。
+
+\end{document}

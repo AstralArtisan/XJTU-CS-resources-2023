@@ -1,0 +1,9 @@
+[package]
+name = "task1_sqlite_register"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+rusqlite = { workspace = true }
+chrono = { workspace = true }
+anyhow = { workspace = true }

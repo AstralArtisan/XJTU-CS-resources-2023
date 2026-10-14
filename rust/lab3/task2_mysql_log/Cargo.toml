@@ -1,0 +1,9 @@
+[package]
+name = "task2_mysql_log"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+mysql = { workspace = true }
+chrono = { workspace = true }
+anyhow = { workspace = true }
